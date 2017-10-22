@@ -196,8 +196,11 @@ matrix:
               diff <(grep -v image/png ~/ihaskell-out.ipynb) <(grep -v image/png notebooks/IHaskell.ipynb)
           fi
     - language: nix
+      cache:
+        directories:
+          - /nix/store
       env: RELEASE_NIX="release.nix"
-      script: nix-build -I nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/c99239bca08d12bf98000961912b4c0ad52a8a7e.tar.gz $RELEASE_NIX
+      script: nix-build -I nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/c99239bca08d12bf98000961912b4c0ad52a8a7e.tar.gz -E "with import <nixpkgs> {}; haskellPackages.diagrams"
     - language: nix
       env: RELEASE_NIX="release-8.2.nix"
       script: nix-build -I nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/c99239bca08d12bf98000961912b4c0ad52a8a7e.tar.gz $RELEASE_NIX
